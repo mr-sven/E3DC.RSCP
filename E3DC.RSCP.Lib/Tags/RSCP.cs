@@ -1,0 +1,13 @@
+﻿namespace E3DC.RSCP.Lib.Tags
+{
+    [TagGroup(0x00)]
+	public enum RSCP : uint
+	{
+		AUTHENTICATION = 0x01,
+		AUTHENTICATION_USER = 0x02,
+		AUTHENTICATION_PASSWORD = 0x03,
+		USER_LEVEL = 0x04,
+		SET_ENCRYPTION_PASSPHRASE = 0x05,
+		GENERAL_ERROR = 0x007fffff,
+	}
+}
