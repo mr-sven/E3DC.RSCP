@@ -12,7 +12,7 @@ I implemented `System.Text.Json` serializer for JSON converting. For converting 
 
 The encryption uses the `BouncyCastle.NetCore` lib with sample source from [@Spontifixu](https://github.com/Spontifixus/) repo [am-e3dc](https://github.com/Spontifixus/am-e3dc).
 
-The list of Tag enums and other Enums is based on various implementations (original ESCP Example, python libs, etc.)
+The list of Tag enums and other Enums is based on various implementations (original RSCP Example, python libs, etc.)
 
 The CRC32 Code is used from Force.CRC32, but due the lack of .Net 6 availablibity, the source is copied.
 
