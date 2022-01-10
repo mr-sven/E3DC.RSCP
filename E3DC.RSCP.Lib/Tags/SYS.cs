@@ -1,0 +1,16 @@
+﻿namespace E3DC.RSCP.Lib.Tags
+{
+    [TagGroup(0x0c)]
+	public enum SYS : uint
+	{
+		SYSTEM_REBOOT = 0x01,
+		IS_SYSTEM_REBOOTING = 0x02,
+		RESTART_APPLICATION = 0x03,
+		SCRIPT_FILE_LIST = 0x10,
+		SCRIPT_FILE = 0x11,
+		EXECUTE_SCRIPT = 0x15,
+		SYSTEM_SHUTDOWN = 0x16,
+		IS_SYSTEM_SHUTTING_DOWN = 0x17,
+		GENERAL_ERROR = 0x007fffff,
+	}
+}
