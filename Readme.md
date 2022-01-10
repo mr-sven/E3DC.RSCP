@@ -43,3 +43,4 @@ Console.WriteLine($"Serial Number: {resultFrame[Tags.INFO.SERIAL_NUMBER]}");
 ## ToDo
 - [ ] correct implement parsing and wirting BitField
 - [ ] JSON to RSCP converter with type mapping
+- [ ] Write multiple values of the same Tag to bytes
