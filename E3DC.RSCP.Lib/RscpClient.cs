@@ -143,6 +143,11 @@ namespace E3DC.RSCP.Lib
 
         public async Task<Frame> SendAsync(Frame frame, CancellationToken cancellationToken = default)
         {
+            if (!tcpClient.Connected)
+            {
+                throw new ProtocolException("connection closed");
+            }
+
             await sendQueue.WaitAsync(cancellationToken);
 
             try
@@ -194,7 +199,15 @@ namespace E3DC.RSCP.Lib
             encryptAlg!.Init(true, new ParametersWithIV(new KeyParameter(encryptionPassword), ivEncryption, 0, IV_SIZE));
             byte[] cipherTextBytes = new byte[encryptAlg!.GetOutputSize(data.Length)];
             int length = encryptAlg.ProcessBytes(data, cipherTextBytes, 0);
-            encryptAlg.DoFinal(cipherTextBytes, length);
+            length += encryptAlg.DoFinal(cipherTextBytes, length);
+
+            // some evil behavior of bouncy castle, discoused in meany threads,
+            // on n times IV_SIZE the cipher adds a full block of padding (zero) to output.
+            // Encryption on E3DC does not support this, and dies, so remove block of nothing
+            if (data.Length % IV_SIZE == 0 && length > data.Length)
+            {
+                cipherTextBytes = cipherTextBytes[..data.Length];
+            }
             Array.Copy(cipherTextBytes, cipherTextBytes.Length - ivEncryption.Length, ivEncryption, 0, ivEncryption.Length);
             return cipherTextBytes;
         }
