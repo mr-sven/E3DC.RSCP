@@ -137,6 +137,21 @@ namespace E3DC.RSCP.Lib
         }
 
         /// <summary>
+        /// Returns value from item list
+        /// </summary>
+        /// <typeparam name="TData">Value Type</typeparam>
+        /// <param name="Tag">Tag</param>
+        /// <returns>Value, if not exists it returns null</returns>
+        public TData? Get<TData>(Enum Tag)
+        {
+            if (items.ContainsKey(Tag) && items[Tag] is TData)
+            {
+                return (TData?)items[Tag];
+            }
+            return default;
+        }
+
+        /// <summary>
         /// Removes a value from item list
         /// </summary>
         /// <typeparam name="T">Tag Enum Type</typeparam>
@@ -147,6 +162,16 @@ namespace E3DC.RSCP.Lib
             {
                 items.Remove(Tag);
             }
+        }
+
+        /// <summary>
+        /// checks tag existence
+        /// </summary>
+        /// <param name="Tag">Tag</param>
+        /// <returns>true if tag exists</returns>
+        public bool Contains(Enum Tag)
+        {
+            return items.ContainsKey(Tag);
         }
 
         /// <summary>
@@ -183,9 +208,19 @@ namespace E3DC.RSCP.Lib
 
                 foreach (Enum key in items.Keys)
                 {
-                    DataType dataType = GetDataTypeFromValue(items[key]);
-                    result += GetValueSize(dataType, items[key]);
-                    result += (ushort)Marshal.SizeOf<ValueHeader>();
+                    if (items[key] is List<object> list)
+                    {
+                        foreach (object item in list)
+                        {
+                            result += GetValueSize(GetDataTypeFromValue(item), item);
+                            result += (ushort)Marshal.SizeOf<ValueHeader>();
+                        }
+                    }
+                    else
+                    {
+                        result += GetValueSize(GetDataTypeFromValue(items[key]), items[key]);
+                        result += (ushort)Marshal.SizeOf<ValueHeader>();
+                    }
                 }
 
                 return result;
@@ -202,17 +237,38 @@ namespace E3DC.RSCP.Lib
             using BinaryWriter bw = new(ms);
             foreach (Enum key in items.Keys)
             {
-                DataType dataType = GetDataTypeFromValue(items[key]);
-                ValueHeader header = new()
+                if (items[key] is List<object> list)
                 {
-                    Tag = GetTagFromEnum(key),
-                    DataType = (byte)dataType,
-                    Length = GetValueSize(dataType, items[key])
-                };
-                header.ToBinaryWriter(bw);
-                WriteBytes(bw, dataType, items[key]);
+                    foreach (object item in list)
+                    {
+                        WriteElement(bw, key, item);
+                    }
+                }
+                else
+                {
+                    WriteElement(bw, key, items[key]);
+                }
             }
             return ms.ToArray();
+        }
+
+        /// <summary>
+        /// writes a single element to writer
+        /// </summary>
+        /// <param name="bw">the writer</param>
+        /// <param name="key">element key</param>
+        /// <param name="item">item data</param>
+        private static void WriteElement(BinaryWriter bw, Enum key, object? item)
+        {
+            DataType dataType = GetDataTypeFromValue(item);
+            ValueHeader header = new()
+            {
+                Tag = GetTagFromEnum(key),
+                DataType = (byte)dataType,
+                Length = GetValueSize(dataType, item)
+            };
+            header.ToBinaryWriter(bw);
+            WriteBytes(bw, dataType, item);
         }
 
         /// <summary>
