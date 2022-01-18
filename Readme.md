@@ -32,15 +32,43 @@ Frame infoFrame = new()
 {
     [Tags.INFO.SERIAL_NUMBER] = null,
     [Tags.INFO.MAC_ADDRESS] = null,
-    [Tags.INFO.SW_RELEASE] = null
+    [Tags.INFO.SW_RELEASE] = null,
 };
 
 Frame resultFrame = await client.SendAsync(infoFrame);
 
 Console.WriteLine($"Serial Number: {resultFrame[Tags.INFO.SERIAL_NUMBER]}");
+
+// get typed value
+string macAddress = resultFrame.Get<string>(Tags.INFO.MAC_ADDRESS);
+```
+
+To create a Frame or Container, you can use array indexer at Constructor.
+
+```csharp
+Frame frame = new()
+{
+    [Tags.EMS.POWER_PV] = null,
+    [Tags.EMS.POWER_BAT] = null,
+    [Tags.EMS.POWER_GRID] = null,
+};
+```
+
+If you want to request multiple values of the same tag, you have to use object brackets. The array indexer `[]` uses the indexer, the object brackets `{}` uses the `Add` function.
+
+```csharp
+Frame frame = new()
+{
+    [Tags.PVI.DATA] = new Container()
+    {
+        { Tags.PVI.INDEX, 0 },
+        { Tags.PVI.DC_POWER, (byte)0 },
+        { Tags.PVI.DC_POWER, (byte)1 },
+    },
+};
 ```
 
 ## ToDo
 - [ ] correct implement parsing and wirting BitField
 - [ ] JSON to RSCP converter with type mapping
-- [ ] Write multiple values of the same Tag to bytes
+- [x] Write multiple values of the same Tag to bytes
