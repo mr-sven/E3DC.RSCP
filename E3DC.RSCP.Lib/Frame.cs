@@ -30,7 +30,7 @@ namespace E3DC.RSCP.Lib
         /// <summary>
         /// frame timestamp
         /// </summary>
-        public DateTime Timestamp { get; set; } = DateTime.Now;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Frame checksum
