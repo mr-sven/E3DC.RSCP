@@ -49,7 +49,7 @@ namespace E3DC.RSCP.Lib
         /// <returns>Element from list</returns>
         public object? this[Enum tag]
         {
-            get 
+            get
             {
                 if (items.ContainsKey(tag))
                 {

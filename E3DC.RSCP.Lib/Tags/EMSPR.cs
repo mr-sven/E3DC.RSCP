@@ -1,0 +1,25 @@
+﻿namespace E3DC.RSCP.Lib.Tags
+{
+    [TagGroup(0x1e)]
+    public enum EMSPR : uint
+    {
+        RSP_GET_EQUATIONS = 0x000001,
+        RSP_SET_EQUATIONS = 0x000002,
+        RSP_GET_ACTIVE = 0x000003,
+        RSP_GET_PINCOUNT = 0x000004,
+        RSP_SET_PINCOUNT = 0x000005,
+        RSP_CHANGECOUNTER = 0x000006,
+        RSP_GET_INVERTERENABLING = 0x000007,
+        RSP_SET_INVERTERENABLING = 0x000008,
+        RSP_GET_INVERTERENABLEWAIT = 0x00000b,
+        RSP_SET_INVERTERENABLEWAIT = 0x00000c,
+        EQUATION = 0x060001,
+        INPUT = 0x060002,
+        MASK = 0x060003,
+        INVALID = 0x060004,
+        OUTPUT = 0x060005,
+        ISACTIVE = 0x060006,
+        FAILURESTATE = 0x060007,
+        GENERAL_ERROR = 0x7fffff,
+    }
+}
