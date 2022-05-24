@@ -322,7 +322,7 @@ namespace E3DC.RSCP.Lib
                     bw.Write((double)value);
                     break;
                 case DataType.Bitfield:
-                    bw.Write((byte[])value);
+                    bw.Write(FromBitField((bool[])value));
                     break;
                 case DataType.String:
                     bw.Write(Encoding.ASCII.GetBytes((string)value));
@@ -340,6 +340,25 @@ namespace E3DC.RSCP.Lib
                     bw.Write((uint)value);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Converts bitfield to byte array
+        /// </summary>
+        /// <param name="bits">bit array</param>
+        /// <returns>data</returns>
+        protected static byte[] FromBitField(bool[] bits)
+        {
+            byte[] result = new byte[(int)Math.Ceiling(bits.Length / 8.0)];            
+            for (int bitIndex = 0; bitIndex < bits.Length; bitIndex++)
+            {
+                if (bits[bitIndex])
+                {
+                    int byteIndex = bitIndex / 8;
+                    result[byteIndex] |= (byte)(1 << (bitIndex % 8));
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -424,7 +443,7 @@ namespace E3DC.RSCP.Lib
                     value = br.ReadDouble();
                     break;
                 case DataType.Bitfield:
-                    value = br.ReadBytes(header.Length);
+                    value = ToBitField(br.ReadBytes(header.Length));
                     break;
                 case DataType.String:
                     value = Encoding.ASCII.GetString(br.ReadBytes(header.Length));
@@ -457,6 +476,25 @@ namespace E3DC.RSCP.Lib
                 Enum group = (Enum)Enum.ToObject(tagGroups[tagGroup], subTag);
                 Add(group, value);
             }
+        }
+
+        /// <summary>
+        /// Converts byte array to bit field
+        /// </summary>
+        /// <param name="data">input bytes</param>
+        /// <returns>bit array</returns>
+        protected static bool[] ToBitField(byte[] data)
+        {
+            bool[] result = new bool[data.Length * 8];
+            for (int byteIndex = 0; byteIndex < data.Length; byteIndex++)
+            {
+                for (int bitIndex = 0; bitIndex < 8; bitIndex++)
+                {
+                    result[(byteIndex * 8) + bitIndex] = (data[byteIndex] & (1 << bitIndex)) != 0;
+                }
+
+            }
+            return result;
         }
 
         /// <summary>
@@ -499,7 +537,7 @@ namespace E3DC.RSCP.Lib
                 DataType.UInt64 => sizeof(ulong),
                 DataType.Float32 => sizeof(float),
                 DataType.Double64 => sizeof(double),
-                DataType.Bitfield => (ushort)(((byte[])value)?.Length ?? 0),
+                DataType.Bitfield => (ushort)Math.Ceiling((((bool[])value)?.Length ?? 0) / 8.0),
                 DataType.String => (ushort)(((string)value)?.Length ?? 0),
                 DataType.Container => ((Container)value)?.Size ?? 0,
                 DataType.Timestamp => sizeof(long) + sizeof(int),
@@ -536,7 +574,7 @@ namespace E3DC.RSCP.Lib
                 Type type when type == typeof(ulong) => DataType.UInt64,
                 Type type when type == typeof(float) => DataType.Float32,
                 Type type when type == typeof(double) => DataType.Double64,
-                //bitfield
+                Type type when type == typeof(bool[]) => DataType.Bitfield,
                 Type type when type == typeof(string) => DataType.String,
                 Type type when type == typeof(Container) => DataType.Container,
                 Type type when type == typeof(DateTime) => DataType.Timestamp,
