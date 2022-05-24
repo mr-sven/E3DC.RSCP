@@ -69,6 +69,6 @@ Frame frame = new()
 ```
 
 ## ToDo
-- [ ] correct implement parsing and wirting BitField
+- [x] correct implement parsing and wirting BitField
 - [ ] JSON to RSCP converter with type mapping
 - [x] Write multiple values of the same Tag to bytes
