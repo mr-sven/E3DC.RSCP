@@ -5,9 +5,10 @@
     {
         REGISTER_CONNECTION = 0x00a001,
         UNREGISTER_CONNECTION = 0x00a002,
-        RSCP_CMD = 0x00a003,
+        REQ_RSCP_CMD = 0x00a003,
         REQ_PING = 0x00a004,
-        NEW_VIRTUAL_CONNECTION = 0x00a005,
+        REQ_NEW_VIRTUAL_CONNECTION = 0x00a005,
+        REQ_IS_RC_SERVER_CONNECTED = 0x00a00a,
         CONNECTION_ID = 0x00b001,
         AUTH_LEVEL = 0x00b002,
         STATUS = 0x00b003,
@@ -22,6 +23,7 @@
         CONNECTION_UNREGISTERED = 0x08a002,
         RSCP_CMD_RESP = 0x08a003,
         PING = 0x08a004,
+        IS_RC_SERVER_CONNECTED = 0x08a00a,
         GENERAL_ERROR = 0x7fffff,
     }
 }

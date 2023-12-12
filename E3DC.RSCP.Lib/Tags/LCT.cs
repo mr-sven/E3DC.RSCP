@@ -1,0 +1,25 @@
+﻿namespace E3DC.RSCP.Lib.Tags
+{
+    [TagGroup(0x2b)]
+    public enum LCT : uint
+    {
+        PARAM_DURATION = 0x000000,
+        START_NGROK = 0x000001,
+        GET_IS_NGROK_RUNNING = 0x000002,
+        GET_IS_GTOU_ACCEPTED = 0x000003,
+        SET_GTOU_ACCEPTED = 0x000004,
+        SD_REQ_GET_MEM_INFO = 0x000005,
+        SD_REQ_GET_MOF_HEAP = 0x000006,
+        SD_REQ_GET_UP_TIME = 0x000007,
+        PARAM_STATUS = 0x400001,
+        PARAM_NGROK_HOSTNAME = 0x400002,
+        PARAM_GTOU_ACCEPTED = 0x400003,
+        PARAM_TOKEN = 0x400004,
+        SD_PARAM_MEM_FREE = 0x400005,
+        SD_PARAM_MEM_CACHED = 0x400006,
+        SD_PARAM_MEM_WD_FREE = 0x400007,
+        SD_PARAM_MEM_BUFFER = 0x400008,
+        SD_PARAM_SYNC_TIME = 0x400009,
+        GENERAL_ERROR = 0x7fffff,
+    }
+}

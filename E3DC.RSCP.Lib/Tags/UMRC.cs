@@ -1,0 +1,43 @@
+﻿namespace E3DC.RSCP.Lib.Tags
+{
+    [TagGroup(0xf0)]
+    public enum UMRC : uint
+    {
+        REQ_FILE_LIST = 0x000104,
+        REQ_MD5_HASH = 0x000105,
+        REQ_FILE_CONTENT = 0x000106,
+        REQ_CREATE_FOLDER = 0x000107,
+        REQ_APPEND_FILE_CONTENT = 0x000108,
+        REQ_RENAME_FILE = 0x000109,
+        REQ_DELETE_FILE = 0x00010d,
+        REQ_DELETE_FOLDER = 0x00010e,
+        REQ_SHOW_MSG = 0x00010f,
+        UM_AVAILABLE = 0x000110,
+        REQ_CHK_SW = 0x00a001,
+        REQ_RESTART = 0x00a005,
+        REQ_MD5 = 0x00a006,
+        MD5 = 0x00b005,
+        FOLDER_NAME = 0x00b007,
+        FILE = 0x00b008,
+        TYPE = 0x00b009,
+        SIZE = 0x00b00a,
+        VALUE = 0x00b00c,
+        INDEX_FROM = 0x00b00d,
+        INDEX_UNTIL = 0x00b00e,
+        DATA_LEN = 0x00b00f,
+        DATA = 0x00b010,
+        SRC_FILE = 0x00b011,
+        DST_FILE = 0x00b012,
+        FILE_LIST = 0x080104,
+        MD5_HASH = 0x080105,
+        FILE_CONTENT = 0x080106,
+        FOLDER_CREATED = 0x080107,
+        FILE_CONTENT_APPENDED = 0x080108,
+        FILE_RENAMED = 0x08010a,
+        FILE_DELETED = 0x08010d,
+        FOLDER_DELETED = 0x08010e,
+        MSG_SHOWN = 0x08010f,
+        MD5_RSP = 0x08a006,
+        GENERAL_ERROR = 0x7fffff,
+    }
+}

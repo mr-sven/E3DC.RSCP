@@ -10,7 +10,7 @@
         COLOR = 0x000005,
         SET_COLOR = 0x000006,
         HW_INFO = 0x000007,
-        STORE_CONFIG = 0x000008,
+        REQ_STORE_CONFIG = 0x000008,
         CONFIG_STORED = 0x000009,
         DEVICE_STATE = 0x060000,
         INDEX = 0x060001,

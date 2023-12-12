@@ -20,6 +20,7 @@
         OUTPUT = 0x060005,
         ISACTIVE = 0x060006,
         FAILURESTATE = 0x060007,
+        INVERTERENABLED = 0x060008,
         GENERAL_ERROR = 0x7fffff,
     }
 }
