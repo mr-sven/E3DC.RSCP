@@ -12,7 +12,7 @@ namespace E3DC.RSCP.Lib
         public byte DataType { get; set; }
         public ushort Length { get; set; }
 
-        public void ToBinaryWriter(BinaryWriter wr)
+        public readonly void ToBinaryWriter(BinaryWriter wr)
         {
             int size = Marshal.SizeOf<ValueHeader>();
             byte[] buffer = new byte[size];

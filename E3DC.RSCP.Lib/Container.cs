@@ -18,12 +18,12 @@ namespace E3DC.RSCP.Lib
         /// <summary>
         /// List for container items
         /// </summary>
-        private readonly Dictionary<Enum, object?> items = new();
+        private readonly Dictionary<Enum, object?> items = [];
 
         /// <summary>
         /// contains list of all Tag group enums
         /// </summary>
-        private static readonly Dictionary<uint, Type> tagGroups = new();
+        private static readonly Dictionary<uint, Type> tagGroups = [];
 
         /// <summary>
         /// static contructor to initialize list of tag groups
@@ -51,9 +51,9 @@ namespace E3DC.RSCP.Lib
         {
             get
             {
-                if (items.ContainsKey(tag))
+                if (items.TryGetValue(tag, out object? value))
                 {
-                    return items[tag];
+                    return value;
                 }
                 return null;
             }
@@ -61,13 +61,9 @@ namespace E3DC.RSCP.Lib
             {
                 // prevent adding unknown enum types
                 GetTagFromEnum(tag);
-                if (items.ContainsKey(tag))
+                if (!items.TryAdd(tag, value))
                 {
                     items[tag] = value;
-                }
-                else
-                {
-                    items.Add(tag, value);
                 }
             }
         }
@@ -144,9 +140,9 @@ namespace E3DC.RSCP.Lib
         /// <returns>Value, if not exists it returns null</returns>
         public TData? Get<TData>(Enum Tag)
         {
-            if (items.ContainsKey(Tag) && items[Tag] is TData)
+            if (items.TryGetValue(Tag, out object? value) && value is TData)
             {
-                return (TData?)items[Tag];
+                return (TData?)value;
             }
             return default;
         }
@@ -471,9 +467,9 @@ namespace E3DC.RSCP.Lib
             uint tagGroup = header.Tag >> 24 & 0xff;
             uint subTag = header.Tag & SUB_TAG_MASK;
 
-            if (tagGroups.ContainsKey(tagGroup))
+            if (tagGroups.TryGetValue(tagGroup, out Type? groupType))
             {
-                Enum group = (Enum)Enum.ToObject(tagGroups[tagGroup], subTag);
+                Enum group = (Enum)Enum.ToObject(groupType, subTag);
                 Add(group, value);
             }
         }

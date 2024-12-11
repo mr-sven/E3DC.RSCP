@@ -1,12 +1,8 @@
 ﻿namespace E3DC.RSCP.Lib.Tags
 {
     [AttributeUsage(AttributeTargets.Enum)]
-    public class TagGroupAttribute : Attribute
+    public class TagGroupAttribute(uint group) : Attribute
     {
-        public uint Group { get; }
-        public TagGroupAttribute(uint Group)
-        {
-            this.Group = Group;
-        }
+        public uint Group => group;
     }
 }

@@ -4,7 +4,6 @@ using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Net.Sockets;
 using System.Text;
-using System;
 
 namespace E3DC.RSCP.Lib
 {
@@ -51,12 +50,12 @@ namespace E3DC.RSCP.Lib
         /// <summary>
         /// Input Vector cache for encryption
         /// </summary>
-        private byte[] ivEncryption = Array.Empty<byte>();
+        private byte[] ivEncryption = [];
 
         /// <summary>
         /// Input Vector cache for decryption
         /// </summary>
-        private byte[] ivDecryption = Array.Empty<byte>();
+        private byte[] ivDecryption = [];
 
         /// <summary>
         /// AES Key Bytes

@@ -17,9 +17,7 @@ namespace Force.Crc32
         /// </summary>
         public Crc32Algorithm()
         {
-#if !NETCORE13
             HashSizeValue = 32;
-#endif
         }
 
         /// <summary>
@@ -47,11 +45,6 @@ namespace Force.Crc32
         /// <returns>Accumulated CRC-32 of all buffers processed so far.</returns>
         public static uint Append(uint initial, byte[] input, int offset, int length)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
             if (offset < 0 || length < 0 || offset + length > input.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(length));
@@ -72,11 +65,6 @@ namespace Force.Crc32
         /// <returns>Accumulated CRC-32 of all buffers processed so far.</returns>
         public static uint Append(uint initial, byte[] input)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(initial));
-            }
-
             return AppendInternal(initial, input, 0, input.Length);
         }
 
@@ -190,11 +178,11 @@ namespace Force.Crc32
         {
             if (isBigEndian)
             {
-                return new[] { (byte)(currentCrc >> 24), (byte)(currentCrc >> 16), (byte)(currentCrc >> 8), (byte)currentCrc };
+                return [(byte)(currentCrc >> 24), (byte)(currentCrc >> 16), (byte)(currentCrc >> 8), (byte)currentCrc];
             }
             else
             {
-                return new[] { (byte)currentCrc, (byte)(currentCrc >> 8), (byte)(currentCrc >> 16), (byte)(currentCrc >> 24) };
+                return [(byte)currentCrc, (byte)(currentCrc >> 8), (byte)(currentCrc >> 16), (byte)(currentCrc >> 24)];
             }
         }
 

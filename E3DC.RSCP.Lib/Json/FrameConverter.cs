@@ -12,7 +12,7 @@ namespace E3DC.RSCP.Lib.Json
                 throw new JsonException();
             }
 
-            Frame frame = new();
+            Frame frame = [];
             while (reader.Read())
             {
                 if (reader.TokenType == JsonTokenType.EndObject)

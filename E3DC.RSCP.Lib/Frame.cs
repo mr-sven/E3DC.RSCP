@@ -95,7 +95,7 @@ namespace E3DC.RSCP.Lib
                 throw new ProtocolException($"Invalid Protocol version: {protocolVersion & PROTOCOL_VERSION_MASK}");
             }
 
-            Frame result = new();
+            Frame result = [];
             result.WithChecksum = (protocolVersion & WITH_CHECKSUM) == WITH_CHECKSUM;
             result.Timestamp = ReadTimeStamp(br);
 

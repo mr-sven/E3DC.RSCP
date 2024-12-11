@@ -6,7 +6,7 @@ namespace E3DC.RSCP.Lib.Json
 {
     public class ContainerConverter : JsonConverter<Container>
     {
-        private readonly Dictionary<string, Type> tagGroups = new();
+        private readonly Dictionary<string, Type> tagGroups = [];
         public ContainerConverter() : base()
         {
             foreach (Type type in typeof(Tags.TagGroupAttribute).Assembly.GetTypes())
@@ -27,7 +27,7 @@ namespace E3DC.RSCP.Lib.Json
                 throw new JsonException();
             }
 
-            Container container = new();
+            Container container = [];
             while (reader.Read())
             {
                 if (reader.TokenType == JsonTokenType.EndObject)
@@ -41,12 +41,12 @@ namespace E3DC.RSCP.Lib.Json
                 string propertyName = reader.GetString() ?? string.Empty;
                 string[] parts = propertyName.Split('_', 2);
 
-                if (!tagGroups.ContainsKey(parts[0]))
+                if (!tagGroups.TryGetValue(parts[0], out Type? groupType))
                 {
                     throw new JsonException($"Unknown Tag group: {parts[0]}");
                 }
 
-                if (!Enum.TryParse(tagGroups[parts[0]], parts[1], out object? result))
+                if (!Enum.TryParse(groupType, parts[1], out object? _))
                 {
                     throw new JsonException($"Unknown Tag: {propertyName}");
                 }
